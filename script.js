@@ -69,19 +69,17 @@ function getTopYear(row) {
 }
 
 function getColor(value) {
-  return value > 220 ? '#4a1486' :   // deep purple
-         value > 190 ? '#6a1b9a' :
-         value > 170 ? '#7b1fa2' :
-         value > 150 ? '#8e24aa' :
-         value > 130 ? '#3949ab' :   // indigo
-         value > 110 ? '#1e88e5' :   // blue
-         value > 90  ? '#00acc1' :   // cyan
-         value > 70  ? '#00897b' :   // teal
-         value > 50  ? '#43a047' :   // green
-         value > 35  ? '#fdd835' :   // yellow
-         value > 20  ? '#fb8c00' :   // orange
-         value > 0   ? '#e53935' :   // red
-                      '#eceff1';     // no data
+  return value > 220 ? '#7f0000' :
+         value > 190 ? '#b30000' :
+         value > 160 ? '#d7301f' :
+         value > 130 ? '#ef6548' :
+         value > 100 ? '#fc8d59' :
+         value > 80  ? '#fdbb84' :
+         value > 60  ? '#fdd49e' :
+         value > 40  ? '#fee8c8' :
+         value > 20  ? '#fff7ec' :
+         value > 0   ? '#edf8fb' :
+                      '#f3f4f6';
 }
 }
 
