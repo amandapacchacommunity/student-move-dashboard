@@ -1,0 +1,17 @@
+[
+  {
+    "zip": "60614",
+    "students": 120,
+    "type": "undergrad"
+  },
+  {
+    "zip": "60647",
+    "students": 80,
+    "type": "grad"
+  },
+  {
+    "zip": "60657",
+    "students": 150,
+    "type": "undergrad"
+  }
+]
