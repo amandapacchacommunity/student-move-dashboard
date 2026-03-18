@@ -45,6 +45,51 @@
     "transit": "Red, Brown, and Purple Line access"
   },
   {
+    "neighborhood": "Lower West Side",
+    "zip": "60608",
+    "years": {
+      "2013": 42,
+      "2014": 58,
+      "2015": 74,
+      "2016": 96,
+      "2017": 121
+    },
+    "avg_rent": 1680,
+    "rent_trend": "up",
+    "summary": "Represents Pilsen in the city boundary data, with strong appeal from students seeking culture, food, and access to the Pink Line.",
+    "transit": "Pink Line and major east-west bus routes"
+  },
+  {
+    "neighborhood": "Bridgeport",
+    "zip": "60608",
+    "years": {
+      "2013": 30,
+      "2014": 39,
+      "2015": 52,
+      "2016": 68,
+      "2017": 84
+    },
+    "avg_rent": 1595,
+    "rent_trend": "steady",
+    "summary": "Popular with students looking for quieter housing, local restaurants, and access to the South Side.",
+    "transit": "Orange Line nearby plus Archer bus corridor"
+  },
+  {
+    "neighborhood": "Garfield Ridge",
+    "zip": "60638",
+    "years": {
+      "2013": 18,
+      "2014": 24,
+      "2015": 31,
+      "2016": 43,
+      "2017": 57
+    },
+    "avg_rent": 1480,
+    "rent_trend": "steady",
+    "summary": "A practical stand-in for the Midway area, with relatively moderate rents and airport-area access.",
+    "transit": "Orange Line access near Midway and major road connections"
+  },
+  {
     "neighborhood": "Near North Side",
     "zip": "60610",
     "years": {
