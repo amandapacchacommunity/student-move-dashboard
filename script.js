@@ -1,108 +1,205 @@
 const statusEl = document.getElementById('status');
 const top3El = document.getElementById('top3');
 
-const map = L.map('map').setView([41.8781, -87.6298], 11);
+let currentYear = '2017';
+let map;
+let geoLayer;
+let geoData;
+let moveData;
+
+const mapObj = L.map('map').setView([41.8781, -87.6298], 11);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+}).addTo(mapObj);
 
-Promise.all([
-  fetch('./data/neighborhoods.geojson').then(r => {
-    if (!r.ok) throw new Error('Could not load neighborhoods.geojson');
-    return r.json();
-  }),
-  fetch('./data/student_moves.json').then(r => {
-    if (!r.ok) throw new Error('Could not load student_moves.json');
-    return r.json();
-  })
-])
-.then(([geojson, moves]) => {
-  const scoreMap = {};
-  moves.forEach(row => {
-    scoreMap[row.neighborhood] = row;
+function setYear(year) {
+  currentYear = year;
+  updateMap();
+  updateTop3();
+  updateStatus();
+  highlightActiveButton();
+}
+
+function highlightActiveButton() {
+  const buttons = document.querySelectorAll('#controls button');
+  buttons.forEach(btn => {
+    if (btn.dataset.year === currentYear) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
   });
+}
 
-  const maxStudents = Math.max(...moves.map(d => d.students));
-  const minStudents = Math.min(...moves.map(d => d.students));
+function getNeighborhoodName(feature) {
+  return (
+    feature.properties?.pri_neigh ||
+    feature.properties?.community ||
+    feature.properties?.name ||
+    feature.properties?.sec_neigh ||
+    'Unknown Neighborhood'
+  );
+}
 
-  function getColor(value) {
-    if (value >= 150) return '#1d4ed8';
-    if (value >= 110) return '#60a5fa';
-    if (value >= 1) return '#dbeafe';
-    return '#f3f4f6';
+function getStudentsForYear(row, year) {
+  if (!row || !row.years) return 0;
+
+  if (year === 'all') {
+    return Object.values(row.years).reduce((sum, val) => sum + val, 0);
   }
 
-  const layer = L.geoJSON(geojson, {
+  return row.years[year] || 0;
+}
+
+function getTopYear(row) {
+  if (!row || !row.years) return 'N/A';
+
+  let bestYear = null;
+  let bestValue = -1;
+
+  for (const [year, value] of Object.entries(row.years)) {
+    if (value > bestValue) {
+      bestValue = value;
+      bestYear = year;
+    }
+  }
+
+  return bestYear;
+}
+
+function getColor(value) {
+  return value > 180 ? '#7f0000' :
+         value > 150 ? '#b30000' :
+         value > 120 ? '#e34a33' :
+         value > 90  ? '#fc8d59' :
+         value > 60  ? '#fdbb84' :
+         value > 30  ? '#fdd49e' :
+         value > 0   ? '#fef0d9' :
+                       '#f3f4f6';
+}
+
+function buildMoveMap(data) {
+  const result = {};
+  data.forEach(row => {
+    result[row.neighborhood] = row;
+  });
+  return result;
+}
+
+function updateMap() {
+  if (!geoData || !moveData) return;
+
+  const moveMap = buildMoveMap(moveData);
+
+  if (geoLayer) {
+    mapObj.removeLayer(geoLayer);
+  }
+
+  geoLayer = L.geoJSON(geoData, {
     style: feature => {
-      const name = feature.properties.pri_neigh;
-      const row = scoreMap[name];
-      const students = row ? row.students : 0;
+      const name = getNeighborhoodName(feature);
+      const row = moveMap[name];
+      const students = getStudentsForYear(row, currentYear);
 
       return {
         color: '#374151',
         weight: 1,
         fillColor: getColor(students),
-        fillOpacity: row ? 0.7 : 0.22
+        fillOpacity: students > 0 ? 0.75 : 0.18
       };
     },
     onEachFeature: (feature, layer) => {
-      const name = 
-        feature.properties.pri_neigh ||
-        feature.properties.community ||
-        feature.properties.name ||
-        feature.properties.sec_neigh;
-      const row = scoreMap[name];
+      const name = getNeighborhoodName(feature);
+      const row = moveMap[name];
 
       if (row) {
+        const students = getStudentsForYear(row, currentYear);
+        const peakYear = getTopYear(row);
+
         layer.bindPopup(`
           <strong>${name}</strong><br/>
-          Students moving here: ${row.students}<br/>
-          Avg rent: $${row.avg_rent}<br/>
-          Rent trend: ${row.rent_trend}<br/>
-          Transit: ${row.transit}
+          Students (${currentYear === 'all' ? 'all time' : currentYear}): ${students}<br/>
+          Most popular year: ${peakYear}<br/>
+          ZIP: ${row.zip || 'N/A'}<br/>
+          Avg rent: $${row.avg_rent ?? 'N/A'}<br/>
+          Rent trend: ${row.rent_trend || 'N/A'}<br/>
+          Transit: ${row.transit || 'N/A'}<br/>
+          <em>${row.summary || ''}</em>
         `);
       } else {
-        layer.bindPopup(`<strong>${name}</strong><br/>No synthetic student movement assigned yet.`);
+        layer.bindPopup(`
+          <strong>${name}</strong><br/>
+          No synthetic student movement assigned yet.
+        `);
       }
     }
-  }).addTo(map);
-[
-  {
-    "neighborhood": "Lincoln Park",
-    "zip": "60614",
-    "years": {
-      "2013": 120,
-      "2014": 140,
-      "2015": 160,
-      "2016": 175,
-      "2017": 185
-    },
-    "avg_rent": 2150,
-    "rent_trend": "up",
-    "summary": "Extremely popular with undergraduates.",
-    "transit": "Red/Brown/Purple Line"
-  }
-]
-  map.fitBounds(layer.getBounds());
+  }).addTo(mapObj);
 
-  const top3 = [...moves].sort((a, b) => b.students - a.students).slice(0, 3);
-  top3El.innerHTML = top3.map((item, idx) => `
+  mapObj.fitBounds(geoLayer.getBounds());
+}
+
+function updateTop3() {
+  if (!moveData) return;
+
+  const ranked = [...moveData]
+    .map(row => ({
+      ...row,
+      studentsNow: getStudentsForYear(row, currentYear),
+      peakYear: getTopYear(row)
+    }))
+    .sort((a, b) => b.studentsNow - a.studentsNow)
+    .slice(0, 3);
+
+  top3El.innerHTML = ranked.map((item, idx) => `
     <article class="card">
       <div class="rank">Top ${idx + 1}</div>
       <h4>${item.neighborhood}</h4>
-      <div class="meta"><strong>Students:</strong> ${item.students}</div>
-      <div class="meta"><strong>ZIP:</strong> ${item.zip}</div>
-      <div class="meta"><strong>Average rent:</strong> $${item.avg_rent}</div>
-      <div class="meta"><strong>Transit:</strong> ${item.transit}</div>
-      <div class="summary">${item.summary}</div>
+      <div class="meta"><strong>Students:</strong> ${item.studentsNow}</div>
+      <div class="meta"><strong>ZIP:</strong> ${item.zip || 'N/A'}</div>
+      <div class="meta"><strong>Average rent:</strong> $${item.avg_rent ?? 'N/A'}</div>
+      <div class="meta"><strong>Rent trend:</strong> ${item.rent_trend || 'N/A'}</div>
+      <div class="meta"><strong>Transit:</strong> ${item.transit || 'N/A'}</div>
+      <div class="meta"><strong>Peak year:</strong> ${item.peakYear}</div>
+      <div class="summary">${item.summary || ''}</div>
     </article>
   `).join('');
+}
 
-  statusEl.textContent = `Loaded ${geojson.features.length} Chicago neighborhood shapes and ranked neighborhoods by student popularity.`;
-})
-.catch(error => {
-  console.error(error);
-  statusEl.textContent = 'Error: ' + error.message;
-  top3El.innerHTML = '<div class="card">Data failed to load.</div>';
-});
+function updateStatus() {
+  if (!geoData || !moveData) return;
+
+  const label = currentYear === 'all' ? 'all years combined' : currentYear;
+  statusEl.textContent = `Showing neighborhood popularity for ${label}.`;
+}
+
+Promise.all([
+  fetch('./data/neighborhoods.geojson').then(response => {
+    if (!response.ok) {
+      throw new Error('Could not load neighborhoods.geojson');
+    }
+    return response.json();
+  }),
+  fetch('./data/student_moves.json').then(response => {
+    if (!response.ok) {
+      throw new Error('Could not load student_moves.json');
+    }
+    return response.json();
+  })
+])
+  .then(([geojson, moves]) => {
+    geoData = geojson;
+    moveData = moves;
+
+    updateMap();
+    updateTop3();
+    updateStatus();
+    highlightActiveButton();
+  })
+  .catch(error => {
+    console.error(error);
+    statusEl.textContent = 'Error loading dashboard data: ' + error.message;
+    top3El.innerHTML = '<div class="card">Could not load dashboard data.</div>';
+  });
+
+window.setYear = setYear;
