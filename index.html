@@ -5,39 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chicago Student Housing Trends</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
   <header class="hero">
     <h1>Chicago Student Housing Trends</h1>
-    <p>Synthetic model of where students moving off campus may concentrate across Chicago neighborhoods.</p>
+    <p>
+      Synthetic dashboard showing neighborhood popularity for students moving
+      off campus in Chicago.
+    </p>
   </header>
 
   <main class="layout">
-    <section class="panel">
-      <h2>Top 3 Neighborhoods</h2>
-      <div id="top3"></div>
-
-      <div class="legend-wrap">
-        <h3>Popularity Scale</h3>
-        <div class="legend">
-          <span class="swatch low"></span><span>Lower student movement</span>
-          <span class="swatch med"></span><span>Medium</span>
-          <span class="swatch high"></span><span>Higher student movement</span>
+    <aside class="sidebar">
+      <section class="panel">
+        <h2>Choose Year</h2>
+        <div id="controls" class="controls">
+          <button data-year="2013" onclick="setYear('2013')">2013</button>
+          <button data-year="2014" onclick="setYear('2014')">2014</button>
+          <button data-year="2015" onclick="setYear('2015')">2015</button>
+          <button data-year="2016" onclick="setYear('2016')">2016</button>
+          <button data-year="2017" onclick="setYear('2017')">2017</button>
+          <button data-year="all" onclick="setYear('all')">All Time</button>
         </div>
-      </div>
-      <div id="controls">
-        <button onclick="setYear('2013')">2013</button>
-        <button onclick="setYear('2014')">2014</button>
-        <button onclick="setYear('2015')">2015</button>
-        <button onclick="setYear('2016')">2016</button>
-        <button onclick="setYear('2017')">2017</button>
-        <button onclick="setYear('all')">All Time</button>
-      </div>
-      
-      <div id="status">Loading data…</div>
-    </section>
+      </section>
+
+      <section class="panel">
+        <h2>Top 3 Neighborhoods</h2>
+        <div id="top3"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Heat Legend</h2>
+        <div id="legend">
+          <div><span style="background:#4a1486"></span> 221+</div>
+          <div><span style="background:#8e24aa"></span> 151–220</div>
+          <div><span style="background:#1e88e5"></span> 91–150</div>
+          <div><span style="background:#43a047"></span> 36–90</div>
+          <div><span style="background:#fb8c00"></span> 1–35</div>
+          <div><span style="background:#eceff1"></span> No data</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Status</h2>
+        <div id="status">Loading dashboard data...</div>
+      </section>
+    </aside>
 
     <section class="map-panel">
       <div id="map"></div>
