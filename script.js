@@ -47,7 +47,11 @@ Promise.all([
       };
     },
     onEachFeature: (feature, layer) => {
-      const name = feature.properties.pri_neigh;
+      const name = 
+        feature.properties.pri_neigh ||
+        feature.properties.community ||
+        feature.properties.name ||
+        feature.properties.sec_neigh;
       const row = scoreMap[name];
 
       if (row) {
