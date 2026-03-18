@@ -1,50 +1,10 @@
 [
-  {
-    "neighborhood": "Sheffield & DePaul",
-    "zip": "60614",
-    "avg_rent": 2150,
-    "trend": "up"
-  },
-  {
-    "neighborhood": "Logan Square",
-    "zip": "60647",
-    "avg_rent": 1825,
-    "trend": "up"
-  },
-  {
-    "neighborhood": "Avondale",
-    "zip": "60618",
-    "avg_rent": 1710,
-    "trend": "steady"
-  },
-  {
-    "neighborhood": "Loop",
-    "zip": "60605",
-    "avg_rent": 2380,
-    "trend": "up"
-  },
-  {
-    "neighborhood": "Lake View",
-    "zip": "60657",
-    "avg_rent": 2085,
-    "trend": "up"
-  },
-  {
-    "neighborhood": "Near North Side",
-    "zip": "60610",
-    "avg_rent": 2440,
-    "trend": "up"
-  },
-  {
-    "neighborhood": "Lincoln Square",
-    "zip": "60625",
-    "avg_rent": 1760,
-    "trend": "steady"
-  },
-  {
-    "neighborhood": "Uptown",
-    "zip": "60640",
-    "avg_rent": 1695,
-    "trend": "down"
-  }
+  { "neighborhood": "Lincoln Park", "zip": "60614", "avg_rent": 2150, "trend": "up" },
+  { "neighborhood": "Logan Square", "zip": "60647", "avg_rent": 1825, "trend": "up" },
+  { "neighborhood": "Lake View", "zip": "60657", "avg_rent": 2000, "trend": "up" },
+  { "neighborhood": "Near North Side", "zip": "60610", "avg_rent": 2400, "trend": "up" },
+  { "neighborhood": "Uptown", "zip": "60640", "avg_rent": 1700, "trend": "down" },
+  { "neighborhood": "Avondale", "zip": "60618", "avg_rent": 1710, "trend": "steady" },
+  { "neighborhood": "Lincoln Square", "zip": "60625", "avg_rent": 1760, "trend": "steady" },
+  { "neighborhood": "Loop", "zip": "60605", "avg_rent": 2380, "trend": "up" }
 ]
