@@ -9,9 +9,33 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <h1>Chicago Student Housing Trends</h1>
-  <div id="status">Loading neighborhood boundaries…</div>
-  <div id="map"></div>
+  <header class="hero">
+    <h1>Chicago Student Housing Trends</h1>
+    <p>Synthetic model of where students moving off campus may concentrate across Chicago neighborhoods.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Top 3 Neighborhoods</h2>
+      <div id="top3"></div>
+
+      <div class="legend-wrap">
+        <h3>Popularity Scale</h3>
+        <div class="legend">
+          <span class="swatch low"></span><span>Lower student movement</span>
+          <span class="swatch med"></span><span>Medium</span>
+          <span class="swatch high"></span><span>Higher student movement</span>
+        </div>
+      </div>
+
+      <div id="status">Loading data…</div>
+    </section>
+
+    <section class="map-panel">
+      <div id="map"></div>
+    </section>
+  </main>
+
   <script src="script.js"></script>
 </body>
 </html>
