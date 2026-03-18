@@ -1,106 +1,47 @@
 [
   {
-    "neighborhood": "Sheffield & DePaul",
+    "neighborhood": "Lincoln Park",
     "zip": "60614",
     "students": 185,
-    "type_mix": {
-      "undergrad": 135,
-      "grad": 50
-    },
     "avg_rent": 2150,
     "rent_trend": "up",
-    "summary": "Very popular with undergraduates because of walkability, restaurants, and proximity to campus life.",
-    "transit": "Brown/Purple/Red Line nearby plus multiple bus routes."
+    "summary": "Extremely popular with undergraduates due to proximity to campus and vibrant social life.",
+    "transit": "Brown/Purple/Red Line"
   },
   {
     "neighborhood": "Logan Square",
     "zip": "60647",
     "students": 160,
-    "type_mix": {
-      "undergrad": 70,
-      "grad": 90
-    },
     "avg_rent": 1825,
     "rent_trend": "up",
-    "summary": "Strong mix of graduate and undergraduate interest, with nightlife, apartments, and transit access.",
-    "transit": "Blue Line access and major east-west bus routes."
-  },
-  {
-    "neighborhood": "Avondale",
-    "zip": "60618",
-    "students": 142,
-    "type_mix": {
-      "undergrad": 55,
-      "grad": 87
-    },
-    "avg_rent": 1710,
-    "rent_trend": "steady",
-    "summary": "Appeals to students seeking a quieter residential feel with comparatively moderate rent.",
-    "transit": "Blue Line nearby plus Belmont and Milwaukee bus corridors."
-  },
-  {
-    "neighborhood": "Loop",
-    "zip": "60605",
-    "students": 118,
-    "type_mix": {
-      "undergrad": 40,
-      "grad": 78
-    },
-    "avg_rent": 2380,
-    "rent_trend": "up",
-    "summary": "High convenience and central access, especially attractive to graduate students.",
-    "transit": "All major CTA rail lines connect through the Loop."
+    "summary": "Trendy and popular with both grads and undergrads.",
+    "transit": "Blue Line"
   },
   {
     "neighborhood": "Lake View",
     "zip": "60657",
-    "students": 134,
-    "type_mix": {
-      "undergrad": 84,
-      "grad": 50
-    },
-    "avg_rent": 2085,
+    "students": 150,
+    "avg_rent": 2000,
     "rent_trend": "up",
-    "summary": "Popular for lake access, lively commercial streets, and a strong student social scene.",
-    "transit": "Red/Brown/Purple Line access and lakefront bus routes."
+    "summary": "Popular for lake access and active student life.",
+    "transit": "Red/Brown Line"
   },
   {
     "neighborhood": "Near North Side",
     "zip": "60610",
-    "students": 104,
-    "type_mix": {
-      "undergrad": 36,
-      "grad": 68
-    },
-    "avg_rent": 2440,
+    "students": 120,
+    "avg_rent": 2400,
     "rent_trend": "up",
-    "summary": "Urban, central, and convenient, but among the higher-rent options.",
-    "transit": "Red Line plus dense CTA bus coverage."
-  },
-  {
-    "neighborhood": "Lincoln Square",
-    "zip": "60625",
-    "students": 97,
-    "type_mix": {
-      "undergrad": 42,
-      "grad": 55
-    },
-    "avg_rent": 1760,
-    "rent_trend": "steady",
-    "summary": "A calmer neighborhood with local shops, useful for students who want balance over nightlife.",
-    "transit": "Brown Line service and multiple north side bus routes."
+    "summary": "Central and convenient, especially for grad students.",
+    "transit": "Red Line"
   },
   {
     "neighborhood": "Uptown",
     "zip": "60640",
-    "students": 88,
-    "type_mix": {
-      "undergrad": 38,
-      "grad": 50
-    },
-    "avg_rent": 1695,
+    "students": 90,
+    "avg_rent": 1700,
     "rent_trend": "down",
-    "summary": "Popular for renters seeking transit access and somewhat lower average rent.",
-    "transit": "Red Line and express bus access along the lakefront."
+    "summary": "More affordable with strong transit access.",
+    "transit": "Red Line"
   }
 ]
