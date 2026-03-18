@@ -67,7 +67,23 @@ Promise.all([
       }
     }
   }).addTo(map);
-
+[
+  {
+    "neighborhood": "Lincoln Park",
+    "zip": "60614",
+    "years": {
+      "2013": 120,
+      "2014": 140,
+      "2015": 160,
+      "2016": 175,
+      "2017": 185
+    },
+    "avg_rent": 2150,
+    "rent_trend": "up",
+    "summary": "Extremely popular with undergraduates.",
+    "transit": "Red/Brown/Purple Line"
+  }
+]
   map.fitBounds(layer.getBounds());
 
   const top3 = [...moves].sort((a, b) => b.students - a.students).slice(0, 3);
