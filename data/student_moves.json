@@ -2,16 +2,28 @@
   {
     "neighborhood": "Lincoln Park",
     "zip": "60614",
-    "students": 185,
+    "years": {
+      "2013": 120,
+      "2014": 140,
+      "2015": 160,
+      "2016": 175,
+      "2017": 185
+    },
     "avg_rent": 2150,
     "rent_trend": "up",
     "summary": "Extremely popular with undergraduates due to proximity to campus and vibrant social life.",
-    "transit": "Brown/Purple/Red Line"
+    "transit": "Red/Brown/Purple Line"
   },
   {
     "neighborhood": "Logan Square",
     "zip": "60647",
-    "students": 160,
+    "years": {
+      "2013": 90,
+      "2014": 110,
+      "2015": 130,
+      "2016": 145,
+      "2017": 160
+    },
     "avg_rent": 1825,
     "rent_trend": "up",
     "summary": "Trendy and popular with both grads and undergrads.",
@@ -20,28 +32,16 @@
   {
     "neighborhood": "Lake View",
     "zip": "60657",
-    "students": 150,
+    "years": {
+      "2013": 80,
+      "2014": 100,
+      "2015": 120,
+      "2016": 135,
+      "2017": 150
+    },
     "avg_rent": 2000,
     "rent_trend": "up",
     "summary": "Popular for lake access and active student life.",
     "transit": "Red/Brown Line"
-  },
-  {
-    "neighborhood": "Near North Side",
-    "zip": "60610",
-    "students": 120,
-    "avg_rent": 2400,
-    "rent_trend": "up",
-    "summary": "Central and convenient, especially for grad students.",
-    "transit": "Red Line"
-  },
-  {
-    "neighborhood": "Uptown",
-    "zip": "60640",
-    "students": 90,
-    "avg_rent": 1700,
-    "rent_trend": "down",
-    "summary": "More affordable with strong transit access.",
-    "transit": "Red Line"
   }
 ]
