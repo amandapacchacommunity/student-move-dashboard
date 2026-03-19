@@ -97,16 +97,39 @@ function updateMap() {
   }
 
   geoLayer = L.geoJSON(geoData, {
-    style: (feature) => {
-      const name = getNeighborhoodName(feature);
-      const row = moveMap[name];
-      const students = getStudentsForYear(row, currentYear);
+   onEachFeature: (feature, layer) => {
+     const name = getNeighborhoodName(feature);
+     const row = moveMap[name];
 
-      return {
-        color: "#374151",
-        weight: 1,
-        fillColor: getColor(students),
-        fillOpacity: students > 0 ? 0.82 : 0.15
+  // Hover effect
+     layer.on({
+       mouseover: (e) => {
+         e.target.setStyle({
+           weight: 4,
+           color: "#000",
+           fillOpacity: 0.95
+      });
+    },
+       mouseout: (e) => {
+         geoLayer.resetStyle(e.target);
+    }
+  });
+
+  if (row) {
+    const students = getStudentsForYear(row, currentYear);
+    const peakYear = getPeakYear(row);
+
+    layer.bindPopup(`
+      <strong>${name}</strong><br/>
+      Students (${currentYear === "all" ? "all time" : currentYear}): ${students}<br/>
+      Peak year: ${peakYear}<br/>
+      Avg rent: $${row.avg_rent}<br/>
+      <em>${row.summary}</em>
+    `);
+  } else {
+    layer.bindPopup(`<strong>${name}</strong><br/>No data`);
+  }
+}
       };
     },
     onEachFeature: (feature, layer) => {
