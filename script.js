@@ -39,17 +39,14 @@ function getNeighborhoodName(feature) {
 
 function getStudentsForYear(row, year) {
   if (!row || !row.years) return 0;
-
   if (year === "all") {
     return Object.values(row.years).reduce((sum, value) => sum + value, 0);
   }
-
   return row.years[year] || 0;
 }
 
 function getPeakYear(row) {
   if (!row || !row.years) return "N/A";
-
   let bestYear = null;
   let bestValue = -1;
 
@@ -59,7 +56,6 @@ function getPeakYear(row) {
       bestYear = year;
     }
   }
-
   return bestYear;
 }
 
@@ -87,6 +83,20 @@ function buildMoveMap(data) {
   return result;
 }
 
+function baseStyle(feature, moveMap) {
+  const name = getNeighborhoodName(feature);
+  const row = moveMap[name];
+  const students = getStudentsForYear(row, currentYear);
+
+  return {
+    color: "#111827",
+    weight: 2,
+    opacity: 0.9,
+    fillColor: getColor(students),
+    fillOpacity: students > 0 ? 0.85 : 0.15
+  };
+}
+
 function updateMap() {
   if (!geoData || !moveData) return;
 
@@ -97,44 +107,26 @@ function updateMap() {
   }
 
   geoLayer = L.geoJSON(geoData, {
-   onEachFeature: (feature, layer) => {
-     const name = getNeighborhoodName(feature);
-     const row = moveMap[name];
+    style: (feature) => baseStyle(feature, moveMap),
 
-  // Hover effect
-     layer.on({
-       mouseover: (e) => {
-         e.target.setStyle({
-           weight: 4,
-           color: "#000",
-           fillOpacity: 0.95
-      });
-    },
-       mouseout: (e) => {
-         geoLayer.resetStyle(e.target);
-    }
-  });
-
-  if (row) {
-    const students = getStudentsForYear(row, currentYear);
-    const peakYear = getPeakYear(row);
-
-    layer.bindPopup(`
-      <strong>${name}</strong><br/>
-      Students (${currentYear === "all" ? "all time" : currentYear}): ${students}<br/>
-      Peak year: ${peakYear}<br/>
-      Avg rent: $${row.avg_rent}<br/>
-      <em>${row.summary}</em>
-    `);
-  } else {
-    layer.bindPopup(`<strong>${name}</strong><br/>No data`);
-  }
-}
-      };
-    },
     onEachFeature: (feature, layer) => {
       const name = getNeighborhoodName(feature);
       const row = moveMap[name];
+
+      layer.on({
+        mouseover: function (e) {
+          e.target.setStyle({
+            weight: 4,
+            color: "#000000",
+            opacity: 1,
+            fillOpacity: 0.95
+          });
+          e.target.bringToFront();
+        },
+        mouseout: function () {
+          geoLayer.resetStyle(layer);
+        }
+      });
 
       if (row) {
         const students = getStudentsForYear(row, currentYear);
@@ -158,6 +150,8 @@ function updateMap() {
       }
     }
   }).addTo(mapObj);
+
+  geoLayer.bringToFront();
 
   if (geoLayer.getBounds().isValid()) {
     mapObj.fitBounds(geoLayer.getBounds());
@@ -193,29 +187,23 @@ function updateTop3() {
 
 function updateStatus() {
   if (!geoData || !moveData) return;
-
   const label = currentYear === "all" ? "all years combined" : currentYear;
-  statusEl.textContent = `Showing neighborhood popularity for ${label}. Select another year or All Time to compare changes.`;
+  statusEl.textContent = `Showing neighborhood popularity for ${label}.`;
 }
 
 Promise.all([
   fetch("./data/neighborhoods.geojson").then((response) => {
-    if (!response.ok) {
-      throw new Error("Could not load neighborhoods.geojson");
-    }
+    if (!response.ok) throw new Error("Could not load neighborhoods.geojson");
     return response.json();
   }),
   fetch("./data/student_moves.json").then((response) => {
-    if (!response.ok) {
-      throw new Error("Could not load student_moves.json");
-    }
+    if (!response.ok) throw new Error("Could not load student_moves.json");
     return response.json();
   })
 ])
   .then(([geojson, moves]) => {
     geoData = geojson;
     moveData = moves;
-
     highlightActiveButton();
     updateMap();
     updateTop3();
